@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A comprehensive Microsoft 365 Copilot, Copilot Studio, Power Platform, agent administration, licensing, billing, cost-estimation and governance guide with tooltips and estimator guidance." name="description"/>
+<title>Microsoft 365 Copilot &amp; Copilot Studio Complete Technical Guide</title>
+<style>
+    :root {
+      --primary: #0078D4;
+      --primary-dark: #005A9E;
+      --primary-light: #E5F1FB;
+      --success: #107C10;
+      --success-light: #E7F4E8;
+      --warning: #FFB900;
+      --warning-light: #FFF4CE;
+      --danger: #D13438;
+      --danger-light: #FDE7E9;
+      --ink: #1f2937;
+      --muted: #64748b;
+      --soft: #f8fafc;
+      --panel: #ffffff;
+      --line: #dbe3ea;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --shadow-soft: 0 8px 18px rgba(15, 23, 42, 0.06);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --header-height: 78px;
+      --sidebar-width: 300px;
+      --transition: 0.3s ease;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #f7fbff 0%, #f8fafc 38%, #ffffff 100%);
+      line-height: 1.6;
+    }
+
+    ::selection { background: var(--primary); color: #fff; }
+
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: #edf2f7; }
+    ::-webkit-scrollbar-thumb { background: #9fb5c9; border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { color: var(--primary-dark); text-decoration: underline; }
+
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 8px;
+      background: var(--primary);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      z-index: 9999;
+    }
+    .skip-link:focus { left: 8px; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      min-height: var(--header-height);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 2px 16px rgba(15, 23, 42, 0.06);
+    }
+
+    .header-inner {
+      max-width: 1620px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .hamburger {
+      display: none;
+      border: 0;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border-radius: 12px;
+      width: 46px;
+      height: 46px;
+      font-size: 1.35rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .hamburger:hover { transform: translateY(-1px); background: #d7ecfb; }
+
+    .brand { min-width: 0; }
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 4px 10px;
+      border: 1px solid #b8d7f0;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    h1 {
+      margin: 0;
+      color: #0f172a;
+      font-size: clamp(1.25rem, 2vw, 1.9rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .search-wrap {
+      justify-self: end;
+      width: min(420px, 36vw);
+      position: relative;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 12px 44px 12px 18px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 0.95rem;
+      outline: none;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
+      transition: var(--transition);
+    }
+    .search-wrap input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(0,120,212,0.12);
+    }
+    .search-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .layout {
+      max-width: 1620px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      gap: 24px;
+      padding: 24px;
+    }
+
+    aside {
+      position: sticky;
+      top: calc(var(--header-height) + 18px);
+      align-self: start;
+      height: calc(100vh - var(--header-height) - 36px);
+      overflow-y: auto;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      padding: 16px;
+    }
+
+    .nav-title {
+      margin: 0 0 12px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+    }
+
+    .side-nav { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+    .side-nav a {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 11px;
+      border-radius: 12px;
+      color: #334155;
+      font-weight: 650;
+      font-size: 0.92rem;
+      transition: var(--transition);
+      text-decoration: none;
+      border: 1px solid transparent;
+    }
+    .side-nav a:hover { background: var(--primary-light); color: var(--primary-dark); transform: translateX(2px); }
+    .side-nav a.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      box-shadow: 0 8px 16px rgba(0,120,212,0.22);
+    }
+
+    .sidebar-note {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 14px;
+      background: #f5f9ff;
+      color: #475569;
+      font-size: 0.86rem;
+      border: 1px solid #d8eafe;
+    }
+
+    main { min-width: 0; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at top right, rgba(0,120,212,0.25), transparent 32%), linear-gradient(135deg, #072A55 0%, #0F4C81 48%, #0078D4 100%);
+      color: #fff;
+      border-radius: 24px;
+      padding: clamp(28px, 5vw, 58px);
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -100px -120px auto;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+    }
+    .hero h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.8rem);
+      line-height: 1;
+      letter-spacing: -0.045em;
+      color: #fff;
+    }
+    .hero p { max-width: 960px; margin: 0; color: rgba(255,255,255,0.9); font-size: 1.08rem; }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 999px;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .guide-tabs {
+      position: sticky;
+      top: var(--header-height);
+      z-index: 900;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 14px;
+      background: rgba(248,250,252,0.94);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+    .guide-tab {
+      border: 1px solid #cfe0f2;
+      background: #fff;
+      color: #22405f;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .guide-tab:hover { transform: translateY(-1px); background: var(--primary-light); }
+    .guide-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    section.content-section {
+      scroll-margin-top: calc(var(--header-height) + 86px);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: clamp(22px, 3vw, 36px);
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-soft);
+      transition: opacity var(--transition), transform var(--transition);
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 16px;
+    }
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(1.55rem, 2vw, 2.15rem);
+      line-height: 1.1;
+      color: #0f172a;
+      letter-spacing: -0.03em;
+    }
+    .section-heading p { margin: 8px 0 0; color: var(--muted); max-width: 900px; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 800;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .grid { display: grid; gap: 16px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .auto-grid { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: #fff;
+      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.035);
+      transition: var(--transition);
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: #bdd8ef; }
+    .card h3, .card h4 { margin: 0 0 8px; color: #0f172a; line-height: 1.2; }
+    .card p { margin: 0; color: #526277; }
+    .card .icon { font-size: 2rem; margin-bottom: 10px; display: inline-block; }
+
+    .metric-card {
+      background: linear-gradient(135deg, #ffffff, #f5faff);
+      border: 1px solid #dbeafe;
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+    .metric-card strong { display: block; color: var(--primary-dark); font-size: 1.5rem; line-height: 1; margin-bottom: 6px; }
+    .metric-card span { color: var(--muted); font-size: 0.9rem; }
+
+    .pricing-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: 22px;
+      padding: 22px;
+      color: #fff;
+      min-height: 210px;
+      box-shadow: var(--shadow);
+    }
+    .pricing-box::after {
+      content: "";
+      position: absolute;
+      inset: auto -60px -70px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.16);
+    }
+    .pricing-box.blue { background: linear-gradient(135deg, var(--primary), #004B8D); }
+    .pricing-box.green { background: linear-gradient(135deg, var(--success), #0B5E0B); }
+    .pricing-box.orange { background: linear-gradient(135deg, #D98700, var(--warning)); color: #241a00; }
+    .pricing-box.purple { background: linear-gradient(135deg, #5B5FC7, #8E54E9); }
+    .price { font-size: 2.15rem; font-weight: 900; letter-spacing: -0.04em; margin: 8px 0; }
+    .pricing-box ul { margin: 14px 0 0; padding-left: 18px; position: relative; z-index: 1; }
+
+    .alert {
+      border-radius: var(--radius-sm);
+      padding: 15px 16px;
+      border-left: 5px solid var(--primary);
+      background: var(--primary-light);
+      color: #1b496b;
+      margin: 16px 0;
+    }
+    .alert.success { background: var(--success-light); border-left-color: var(--success); color: #155d15; }
+    .alert.warning { background: var(--warning-light); border-left-color: var(--warning); color: #684d00; }
+    .alert.danger { background: var(--danger-light); border-left-color: var(--danger); color: #7a1f23; }
+    .alert strong { display: block; margin-bottom: 4px; }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      margin: 16px 0;
+      background: #fff;
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 760px; }
+    th, td { padding: 13px 14px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { background: #eff6ff; color: #143a5c; font-size: 0.83rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    tr:nth-child(even) td { background: #fbfdff; }
+    tr:last-child td { border-bottom: 0; }
+
+    .accordion { display: grid; gap: 12px; margin: 16px 0; }
+    .accordion-item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      overflow: hidden;
+    }
+    .accordion-toggle, .faq-question {
+      width: 100%;
+      border: 0;
+      background: #fff;
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: #0f172a;
+      font-weight: 850;
+      font-size: 1rem;
+      text-align: left;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .accordion-toggle:hover, .faq-question:hover { background: #f3f9ff; color: var(--primary-dark); }
+    .accordion-toggle .chevron, .faq-question .chevron { transition: transform var(--transition); font-size: 1.1rem; }
+    .accordion-toggle.open .chevron, .faq-question.open .chevron { transform: rotate(180deg); }
+    .accordion-panel, .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition);
+      background: #fbfdff;
+    }
+    .accordion-content, .faq-content { padding: 0 18px 18px; color: #475569; }
+    .accordion-content ul, .faq-content ul { margin: 8px 0 0; padding-left: 20px; }
+
+    .price-tabs { margin: 16px 0; }
+    .tab-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+    .pricing-tab {
+      border: 1px solid #cfe0f2;
+      background: #fff;
+      color: #24415d;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 850;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .pricing-tab:hover { background: var(--primary-light); }
+    .pricing-tab.active { background: var(--primary-dark); color: #fff; border-color: var(--primary-dark); }
+    .pricing-panel { display: none; }
+    .pricing-panel.active { display: block; animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+    .process {
+      display: grid;
+      gap: 12px;
+      counter-reset: step;
+      margin: 16px 0;
+    }
+    .step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: #fff;
+    }
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 900;
+    }
+    .step strong { display: block; margin-bottom: 3px; color: #0f172a; }
+
+    .estimator {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 18px;
+      align-items: start;
+    }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .field { display: grid; gap: 6px; }
+    .field.full { grid-column: 1 / -1; }
+    label { font-weight: 800; color: #26394f; font-size: 0.9rem; }
+    input, select {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+      font: inherit;
+      background: #fff;
+      color: var(--ink);
+      outline: none;
+      transition: var(--transition);
+    }
+    input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(0,120,212,0.12); }
+    .hint { color: var(--muted); font-size: 0.82rem; }
+    .button-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: #e2e8f0; color: #172033; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 16px rgba(15,23,42,0.12); }
+
+    .result-panel {
+      position: sticky;
+      top: calc(var(--header-height) + 90px);
+      border-radius: 22px;
+      background: linear-gradient(180deg, #ffffff, #f5faff);
+      border: 1px solid #cfe0f2;
+      box-shadow: var(--shadow-soft);
+      padding: 18px;
+    }
+    .result-panel h3 { margin-top: 0; }
+    .result-number {
+      display: block;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 950;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      color: var(--primary-dark);
+      margin: 8px 0;
+    }
+    .result-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+    .result-tile { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+    .result-tile strong { display: block; color: #0f172a; font-size: 1.1rem; }
+    .progress-track { height: 12px; border-radius: 999px; background: #e2e8f0; overflow: hidden; margin: 12px 0; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--success), var(--warning), var(--danger)); transition: width var(--transition); }
+
+    .resource-list { display: grid; gap: 10px; margin: 16px 0; }
+    .resource-list a {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 13px 15px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .resource-list a:hover { background: var(--primary-light); transform: translateX(2px); }
+
+    .empty-state {
+      display: none;
+      text-align: center;
+      border: 2px dashed #cbd5e1;
+      border-radius: 22px;
+      padding: 32px;
+      background: #fff;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    footer {
+      max-width: 1620px;
+      margin: 0 auto;
+      padding: 24px;
+      color: #5b6b80;
+    }
+    .footer-card {
+      background: #0f172a;
+      color: #d8e0ee;
+      border-radius: 22px;
+      padding: 28px 32px;
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.25fr) minmax(260px, 0.9fr);
+      gap: 24px;
+      align-items: start;
+    }
+    .footer-card a { color: #93c5fd; }
+    .footer-title { color: #f8fafc; font-weight: 900; margin-bottom: 8px; }
+    .footer-summary { line-height: 1.55; }
+
+    .print-note { display: none; }
+
+
+    /* Enhancement: reusable acronyms/tooltips, estimator yellow-input guidance and attribution metadata */
+    .tooltip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      border-bottom: 1px dotted currentColor;
+      cursor: help;
+      font-weight: 800;
+      text-decoration: none;
+      outline: none;
+    }
+    .tooltip::after {
+      content: "?";
+      display: inline-grid;
+      place-items: center;
+      width: 15px;
+      height: 15px;
+      margin-left: 4px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 0.65rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .tooltip-text {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      transform: translateX(-50%) translateY(4px);
+      z-index: 2000;
+      width: min(330px, 82vw);
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #0f172a;
+      color: #fff;
+      font-weight: 500;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.25);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+    }
+    .tooltip-text::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 7px solid transparent;
+      border-top-color: #0f172a;
+    }
+    .tooltip:hover .tooltip-text,
+    .tooltip:focus .tooltip-text,
+    .tooltip:focus-visible .tooltip-text {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(4px);
+    }
+
+    /* Fixed global tooltip layer: prevents clipping inside cards, tables, sticky areas and scroll containers. */
+    .tooltip > .tooltip-text {
+      display: none !important;
+    }
+    .floating-tooltip {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 99999;
+      max-width: min(390px, calc(100vw - 32px));
+      padding: 11px 13px;
+      border-radius: 13px;
+      background: #0f172a;
+      color: #ffffff;
+      box-shadow: 0 18px 44px rgba(15, 23, 42, 0.32);
+      font-size: 0.82rem;
+      font-weight: 650;
+      line-height: 1.45;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
+      white-space: normal;
+      overflow-wrap: break-word;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .floating-tooltip.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .disclaimer-banner {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      border: 1px solid #f2d46b;
+      background: linear-gradient(135deg, #fff9df, #ffffff);
+      color: #5b4700;
+      box-shadow: var(--shadow-soft);
+    }
+    .disclaimer-banner .disclaimer-icon {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--warning);
+      color: #1f2937;
+      font-weight: 950;
+    }
+    .disclaimer-banner p { margin: 2px 0 0; }
+    .metadata-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      color: rgba(255,255,255,0.88);
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 1;
+    }
+    .metadata-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.12);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-weight: 700;
+    }
+
+    .estimator-instructions {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.2fr);
+      gap: 14px;
+      align-items: stretch;
+      margin: 16px 0 18px;
+    }
+    .estimator-instructions .instruction-card {
+      border-radius: 18px;
+      border: 1px solid #f2d46b;
+      background: #fff8dc;
+      padding: 16px;
+      color: #5b4700;
+    }
+    .estimator-instructions h3 { margin: 0 0 8px; color: #3f3100; }
+    .estimator-instructions ol { margin: 8px 0 0; padding-left: 22px; }
+    .estimator-instructions li { margin-bottom: 5px; }
+
+    .required-estimator-field {
+      gap: 8px;
+      padding: 12px;
+      border: 1px solid #ffd967;
+      background: linear-gradient(180deg, #fff8dc, #ffffff 92%);
+      border-radius: 16px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+    }
+    .required-estimator-field label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .label-main {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .step-pill {
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--warning);
+      color: #1f2937;
+      font-size: 0.76rem;
+      font-weight: 950;
+      box-shadow: 0 2px 6px rgba(255,185,0,0.35);
+    }
+    .field-type {
+      border-radius: 999px;
+      padding: 3px 8px;
+      background: #fff;
+      color: #7a5a00;
+      border: 1px solid #f2d46b;
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .input-help-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(150px, 0.82fr);
+      gap: 10px;
+      align-items: center;
+    }
+    .input-help-row input,
+    .input-help-row select {
+      background: #fffef7;
+      border-color: #eab308;
+    }
+    .field-howto {
+      display: block;
+      font-size: 0.76rem;
+      line-height: 1.35;
+      color: #6b5200;
+      border-left: 3px solid var(--warning);
+      padding-left: 8px;
+    }
+    .required-estimator-field .hint { color: #7a5a00; }
+
+    .footer-meta {
+      display: grid;
+      gap: 10px;
+      text-align: right;
+      justify-items: end;
+    }
+    .footer-credit {
+      color: #f8fafc;
+      font-weight: 850;
+      line-height: 1.35;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-weight: 800;
+    }
+    .footer-disclaimer {
+      color: #b8c4d8;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+    .footer-label {
+      color: #93c5fd;
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 1100px) {
+      .footer-card { grid-template-columns: 1fr 1fr; }
+      .footer-meta { text-align: left; justify-items: start; }
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .estimator { grid-template-columns: 1fr; }
+      .estimator-instructions { grid-template-columns: 1fr; }
+      .result-panel { position: static; }
+    }
+
+    @media (max-width: 768px) {
+      :root { --header-height: 118px; }
+      .header-inner { grid-template-columns: auto 1fr; padding: 10px 14px; }
+      .hamburger { display: inline-grid; place-items: center; }
+      .brand { grid-column: 2; }
+      .search-wrap { grid-column: 1 / -1; width: 100%; }
+      .layout { display: block; padding: 14px; }
+      aside {
+        position: fixed;
+        top: var(--header-height);
+        left: 12px;
+        right: 12px;
+        height: calc(100vh - var(--header-height) - 24px);
+        z-index: 950;
+        transform: translateX(-115%);
+        transition: transform var(--transition);
+      }
+      aside.open { transform: translateX(0); }
+      .guide-tabs { position: static; }
+      section.content-section { padding: 20px; scroll-margin-top: calc(var(--header-height) + 22px); }
+      .section-heading { display: block; }
+      .tag { margin-top: 10px; }
+      .grid-2, .grid-3, .grid-4, .auto-grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .input-help-row { grid-template-columns: 1fr; }
+      .footer-card { grid-template-columns: 1fr; padding: 22px; }
+      .footer-meta { text-align: left; justify-items: start; }
+      .footer-links { justify-content: flex-start; }
+      table { min-width: 660px; }
+      .hero { border-radius: 20px; padding: 26px; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      header, aside, .guide-tabs, .hamburger, .search-wrap, .btn { display: none !important; }
+      .layout { display: block; padding: 0; }
+      section.content-section, .hero { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+      .accordion-panel, .faq-answer { max-height: none !important; display: block !important; }
+      .print-note { display: block; }
+    }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#mainContent">Skip to main content</a>
+<header>
+<div class="header-inner">
+<button aria-expanded="false" aria-label="Open navigation menu" class="hamburger" id="menuToggle">☰</button>
+<div class="brand">
+<div class="eyebrow">Microsoft Copilot + Power Platform</div>
+<h1>Microsoft 365 Copilot &amp; Copilot Studio Complete Technical Guide</h1>
+<p class="subtitle">Combined business guide, administration guide, licensing model, billing reference and cost estimator.</p>
+</div>
+<div class="search-wrap">
+<input aria-label="Search guide sections" id="searchInput" placeholder="Search guide: licensing, admin, DLP, estimator, RBAC..." type="search"/>
+<span class="search-icon">🔎</span>
+</div>
+</div>
+</header>
+<div class="layout">
+<aside aria-label="Guide navigation" id="sidebar">
+<p class="nav-title">Guide sections</p>
+<ul class="side-nav" id="sideNav">
+<li><a href="#overview"><span>🎯</span><span>Overview</span></a></li>
+<li><a href="#core-products"><span>🤖</span><span>Core Products</span></a></li>
+<li><a href="#tenant-setup"><span>🏗️</span><span>Tenant Setup</span></a></li>
+<li><a href="#agent-admin"><span>🛠️</span><span>Agent Administration</span></a></li>
+<li><a href="#roles"><span>👥</span><span>Roles &amp; Permissions</span></a></li>
+<li><a href="#licensing"><span>📜</span><span>Licensing Guide</span></a></li>
+<li><a href="#credits"><span>💳</span><span>Copilot Credits</span></a></li>
+<li><a href="#billing"><span>💵</span><span>Billing Details</span></a></li>
+<li><a href="#estimator"><span>🧮</span><span>Cost Estimator</span></a></li>
+<li><a href="#implementation"><span>🚀</span><span>Implementation</span></a></li>
+<li><a href="#faq"><span>❓</span><span>FAQ</span></a></li>
+<li><a href="#resources"><span>📚</span><span>Resources</span></a></li>
+</ul>
+<div class="sidebar-note">
+<strong>How to use this guide:</strong><br/>
+        Use the tabs above the content for a focused view, or select <em>All</em> for a full end-to-end reference.
+      </div>
+</aside>
+<main id="mainContent">
+<div class="hero">
+<h2>From first Copilot rollout to governed agent operations.</h2>
+<p>This combined guide explains Microsoft 365 Copilot, Copilot Studio, Power Platform foundations, administration responsibilities, licensing models, Copilot Credits, Azure billing, and cost-estimation patterns in one production-ready reference.</p>
+<div class="hero-meta">
+<span class="hero-badge">✅ Self-contained HTML</span>
+<span class="hero-badge">🔍 Searchable</span>
+<span class="hero-badge">🧮 Interactive estimator</span>
+<span class="hero-badge">📱 Mobile responsive</span>
+<span class="hero-badge">🧭 Sticky navigation</span>
+</div>
+
+<div class="metadata-line">
+<span class="metadata-chip">Built by Craig Wagner</span>
+<span class="metadata-chip">BrightPrompt AI Founder &amp; Copilot Specialist</span>
+<span class="metadata-chip">Last reviewed: 28 May 2026</span>
+</div>
+</div>
+<div aria-label="Guide disclaimer" class="disclaimer-banner" role="note">
+<span class="disclaimer-icon">!</span>
+<div>
+<strong>Disclaimer and source currency</strong>
+<p>This guide is based on the most recent Microsoft information and source references available at the time of preparation. Microsoft may change product names, licensing terms, prices, billing meters, limits, availability, screenshots, admin-center navigation and user interface labels without notice. Use this guide for planning and enablement, then confirm final commercial and technical decisions against current Microsoft documentation, your tenant configuration, your Microsoft agreement and your licensing partner.</p>
+</div>
+</div>
+
+<div aria-label="Guide focus filters" class="guide-tabs" role="tablist">
+<button class="guide-tab active" data-group="all" type="button">All Sections</button>
+<button class="guide-tab" data-group="foundations" type="button">Business Foundations</button>
+<button class="guide-tab" data-group="administration" type="button">Administration</button>
+<button class="guide-tab" data-group="licensing" type="button">Licensing &amp; Cost</button>
+<button class="guide-tab" data-group="implementation" type="button">Implementation</button>
+</div>
+<div class="empty-state" id="emptyState">
+<h2>No matching sections found</h2>
+<p>Try a broader search term such as “license”, “billing”, “environment”, “<span class="tooltip" tabindex="0">DLP<span class="tooltip-text" role="tooltip">Data Loss Prevention. Microsoft policies that classify, allow, restrict or block connectors and data movement to reduce leakage risk.</span></span>”, “Teams”, or “credits”.</p>
+</div>
+<section class="content-section" data-groups="foundations" data-keywords="overview microsoft 365 copilot copilot studio power platform adoption governance" id="overview">
+<div class="section-heading">
+<div>
+<h2>🎯 Overview</h2>
+<p>A practical overview of how Microsoft 365 Copilot, Copilot Studio and Power Platform work together for productivity, automation and governed AI agent delivery.</p>
+</div>
+<span class="tag">Foundation</span>
+</div>
+<div class="grid auto-grid">
+<div class="card"><span class="icon">💬</span><h3>Microsoft 365 Copilot</h3><p>An AI assistant embedded across Microsoft 365 apps such as Teams, Outlook, Word, Excel and PowerPoint. Best suited for knowledge work, summarisation, drafting, meeting support and everyday productivity.</p></div>
+<div class="card"><span class="icon">🤖</span><h3>Copilot Studio</h3><p>A low-code agent-building platform for creating custom agents, connecting to knowledge, orchestrating topics, calling actions, and publishing to channels such as Teams and web.</p></div>
+<div class="card"><span class="icon">⚙️</span><h3>Power Platform</h3><p>The platform layer for data, automation and app extension. It includes Power Apps, Power Automate, Power BI, Power Pages, Dataverse and governance capabilities.</p></div>
+<div class="card"><span class="icon">🛡️</span><h3>Governed Rollout</h3><p>Successful adoption requires licensing clarity, admin controls, least-privilege access, environment strategy, data policies, monitoring and measurable business outcomes.</p></div>
+</div>
+<div class="alert success">
+<strong>Plain-English model</strong>
+          Microsoft 365 Copilot helps employees work faster inside Microsoft 365. Copilot Studio lets the organisation build specialist agents that answer, guide, automate and connect to business systems. Power Platform provides the governance, data and automation backbone.
+        </div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Question</th><th>Best-fit starting point</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td>Do employees need help drafting, summarising and analysing work content?</td><td>Microsoft 365 Copilot</td><td>Fastest productivity uplift across existing Microsoft 365 work patterns.</td></tr>
+<tr><td>Do we need a business-specific assistant for policies, SOPs or customer workflows?</td><td>Copilot Studio</td><td>Allows custom agent design, enterprise knowledge, actions and channels.</td></tr>
+<tr><td>Do we need forms, approvals, case updates or integration steps?</td><td>Power Automate + Dataverse</td><td>Turns the agent from a Q&amp;A experience into a controlled business process.</td></tr>
+<tr><td>Do we need auditability, access control and controlled rollout?</td><td>Power Platform admin + Microsoft 365 admin</td><td>Provides environment, capacity, security, <span class="tooltip" tabindex="0">DLP<span class="tooltip-text" role="tooltip">Data Loss Prevention. Microsoft policies that classify, allow, restrict or block connectors and data movement to reduce leakage risk.</span></span> and licensing control.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="content-section" data-groups="foundations,licensing" data-keywords="core products microsoft 365 copilot copilot studio pricing comparison power platform" id="core-products">
+<div class="section-heading">
+<div>
+<h2>🤖 Core Products</h2>
+<p>Understand the practical differences between Microsoft 365 Copilot and Copilot Studio before making architecture, licensing or delivery decisions.</p>
+</div>
+<span class="tag">Product Fit</span>
+</div>
+<div class="grid grid-2">
+<div class="pricing-box blue">
+<h3>Microsoft 365 Copilot</h3>
+<div class="price">$30/user/month</div>
+<p>Paid yearly, usually added to qualifying Microsoft 365 subscriptions. Best for internal productivity and Microsoft 365 app experiences.</p>
+<ul>
+<li>Internal employee users</li>
+<li>Works across Microsoft 365 apps</li>
+<li>Grounded in business data where licensed and permitted</li>
+<li>Includes enterprise-grade security and compliance posture</li>
+</ul>
+</div>
+<div class="pricing-box green">
+<h3>Copilot Studio Capacity</h3>
+<div class="price">$200 / 25K credits</div>
+<p>Tenant-wide prepaid capacity packs are used for custom agent consumption. Pay-as-you-go billing is also available for variable usage.</p>
+<ul>
+<li>Custom business agents</li>
+<li>Teams, web and other channels</li>
+<li>Topics, knowledge, actions and flows</li>
+<li>Consumption measured in Copilot Credits</li>
+</ul>
+</div>
+</div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Dimension</th><th>Microsoft 365 Copilot</th><th>Copilot Studio</th><th>Power Platform role</th></tr></thead>
+<tbody>
+<tr><td>Main purpose</td><td>AI assistant for productivity and work content</td><td>Build and manage custom agents</td><td>Apps, automation, analytics and data platform</td></tr>
+<tr><td>Primary users</td><td>Employees with eligible licenses</td><td>Agent makers, admins and end users</td><td>Makers, admins, process owners and analysts</td></tr>
+<tr><td>Typical channel</td><td>Microsoft 365 app and Copilot Chat</td><td>Teams, web, custom channels and agent surfaces</td><td>Power Apps, Power Automate, Dataverse and Power BI</td></tr>
+<tr><td>Typical value</td><td>Personal productivity and knowledge work acceleration</td><td>Process-specific automation and guided support</td><td>Business workflow execution and governed data access</td></tr>
+<tr><td>Commercial model</td><td>Per-user subscription</td><td>Copilot Credit consumption or capacity packs</td><td>Bundled and premium plans depending on capabilities used</td></tr>
+</tbody>
+</table>
+</div>
+<div aria-label="Pricing model tabs" class="price-tabs">
+<div class="tab-buttons" role="tablist">
+<button class="pricing-tab active" data-price-tab="prepurchase" type="button">Pre-Purchase Capacity</button>
+<button class="pricing-tab" data-price-tab="paygo" type="button">Pay-As-You-Go</button>
+<button class="pricing-tab" data-price-tab="m365" type="button"><span class="tooltip" tabindex="0">M365<span class="tooltip-text" role="tooltip">Microsoft 365. In this guide, usually shorthand for Microsoft 365 Copilot or Microsoft 365 tenant services.</span></span> Copilot Users</button>
+</div>
+<div class="pricing-panel active" data-price-panel="prepurchase">
+<div class="alert success"><strong>Use when usage is predictable.</strong> Buy one or more 25,000-credit monthly capacity packs, allocate or reserve capacity, and monitor consumption in the Power Platform admin center.</div>
+</div>
+<div class="pricing-panel" data-price-panel="paygo">
+<div class="alert warning"><strong>Use when usage is variable or still being proven.</strong> Link billing to Azure and pay for consumption at the end of the billing period. This avoids over-buying capacity during early pilots.</div>
+</div>
+<div class="pricing-panel" data-price-panel="m365">
+<div class="alert"><strong>Use when the agent is employee-facing and authenticated.</strong> Many <span class="tooltip" tabindex="0">B2E<span class="tooltip-text" role="tooltip">Business-to-Employee. An internal employee-facing agent or use case.</span></span> custom agent scenarios invoked by Microsoft 365 Copilot licensed users are not charged against Copilot Credits, subject to Microsoft fair-use terms.</div>
+</div>
+</div>
+</section>
+<section class="content-section" data-groups="foundations,administration" data-keywords="tenant setup azure power platform admin center environment dataverse teams microsoft 365 admin" id="tenant-setup">
+<div class="section-heading">
+<div>
+<h2>🏗️ Tenant Setup</h2>
+<p>The tenant is the organisation’s Microsoft cloud boundary. It contains users, groups, identities, licenses, environments, admin policies and connected services.</p>
+</div>
+<span class="tag">Setup</span>
+</div>
+<div class="grid grid-3">
+<div class="metric-card"><strong>15 min</strong><span>Indicative Microsoft 365 Copilot assignment for a ready tenant with eligible prerequisites.</span></div>
+<div class="metric-card"><strong>2–4 weeks</strong><span>Indicative controlled Copilot Studio pilot when governance, knowledge, channels and <span class="tooltip" tabindex="0">UAT<span class="tooltip-text" role="tooltip">User Acceptance Testing. Business testing that confirms the solution works for real user scenarios before production release.</span></span> are included.</span></div>
+<div class="metric-card"><strong>3 admin centres</strong><span>Microsoft 365 admin center, Power Platform admin center and Azure portal commonly appear in setup.</span></div>
+</div>
+<div class="accordion">
+<div class="accordion-item">
+<button aria-expanded="false" class="accordion-toggle" type="button">Microsoft 365 Copilot readiness checklist <span class="chevron">⌄</span></button>
+<div class="accordion-panel"><div class="accordion-content">
+<ul>
+<li>Confirm qualifying Microsoft 365 subscription prerequisites.</li>
+<li>Assign Microsoft 365 Copilot licenses to the right pilot users.</li>
+<li>Confirm Microsoft <span class="tooltip" tabindex="0">Entra ID<span class="tooltip-text" role="tooltip">Microsoft Entra ID, formerly Azure Active Directory. It provides identity, authentication and access management for Microsoft cloud services.</span></span> identities and group membership.</li>
+<li>Review SharePoint, OneDrive, Teams and Exchange permissions before rollout.</li>
+<li>Prepare usage policies, prompt guidance and responsible AI guardrails.</li>
+<li>Track adoption through Microsoft 365 admin and Copilot analytics surfaces where available.</li>
+</ul>
+</div></div>
+</div>
+<div class="accordion-item">
+<button aria-expanded="false" class="accordion-toggle" type="button">Copilot Studio environment checklist <span class="chevron">⌄</span></button>
+<div class="accordion-panel"><div class="accordion-content">
+<ul>
+<li>Create or select the correct Power Platform environment: development, test, sandbox or production.</li>
+<li>Decide whether Dataverse is required for the target solution pattern.</li>
+<li>Apply <span class="tooltip" tabindex="0">DLP<span class="tooltip-text" role="tooltip">Data Loss Prevention. Microsoft policies that classify, allow, restrict or block connectors and data movement to reduce leakage risk.</span></span> policies before connecting agents to sensitive systems.</li>
+<li>Confirm maker, admin and end-user security roles.</li>
+<li>Confirm channel strategy: Teams-only, internal web, external web, or multi-channel.</li>
+<li>Configure capacity, pay-as-you-go billing or prepaid capacity allocation.</li>
+<li>Set up solution packaging and <span class="tooltip" tabindex="0">ALM<span class="tooltip-text" role="tooltip">Application Lifecycle Management. Controlled movement of solutions through development, test and production with governance.</span></span> practices before production changes.</li>
+</ul>
+</div></div>
+</div>
+<div class="accordion-item">
+<button aria-expanded="false" class="accordion-toggle" type="button">Admin centre map <span class="chevron">⌄</span></button>
+<div class="accordion-panel"><div class="accordion-content">
+<div class="table-wrap">
+<table>
+<thead><tr><th>Admin surface</th><th>Used for</th><th>Typical owner</th></tr></thead>
+<tbody>
+<tr><td>Microsoft 365 admin center</td><td>Users, licenses, subscriptions, capacity pack purchase and tenant settings</td><td>Global Admin / Billing Admin</td></tr>
+<tr><td>Power Platform admin center</td><td>Environments, Dataverse capacity, <span class="tooltip" tabindex="0">DLP<span class="tooltip-text" role="tooltip">Data Loss Prevention. Microsoft policies that classify, allow, restrict or block connectors and data movement to reduce leakage risk.</span></span> policies, analytics, agent capacity allocation and governance controls</td><td>Power Platform Admin</td></tr>
+<tr><td>Azure portal / Cost Management</td><td>Azure subscription, pay-as-you-go billing, budgets, alerts and cost analysis</td><td>Azure Admin / Billing Owner</td></tr>
+<tr><td>Microsoft Teams admin center</td><td>Teams channel policies, app availability, custom app permissions and app setup policies</td><td>Teams Admin</td></tr>
+<tr><td>Microsoft Entra admin center</td><td>Identity, groups, conditional access, <span class="tooltip" tabindex="0">SSO<span class="tooltip-text" role="tooltip">Single Sign-On. A user signs in once with their organizational identity and can access approved services without repeated prompts.</span></span> and application permissions</td><td>Identity Admin</td></tr>
+</tbody>
+</table>
+</div>
+</div></div>
+</div>
+</div>
+</section>
+<section class="content-section" data-groups="administration" data-keywords="agent administration access environments authentication sso entra data policies dlp monitoring analytics topics diagnostics feedback" id="agent-admin">
+<div class="section-heading">
+<div>
+<h2>🛠️ Agent Administration</h2>
+<p>Agent administration is the operating discipline for safely building, publishing, monitoring and governing Copilot Studio agents across environments, users, data and channels.</p>
+</div>
+<span class="tag">Admin Deep Dive</span>
+</div>
+<div class="grid auto-grid">
+<div class="card"><span class="icon">🔑</span><h3>Assign licenses &amp; manage access</h3><p>Control who can build, administer, test, publish and use agents. Use least-privilege roles, named owners and controlled maker groups.</p></div>
+<div class="card"><span class="icon">🌍</span><h3>Work with environments</h3><p>Separate development, test, sandbox and production. Align environment strategy to data sensitivity, <span class="tooltip" tabindex="0">ALM<span class="tooltip-text" role="tooltip">Application Lifecycle Management. Controlled movement of solutions through development, test and production with governance.</span></span>, capacity and support requirements.</p></div>
+<div class="card"><span class="icon">🪪</span><h3>Configure authentication</h3><p>Use <span class="tooltip" tabindex="0">Entra ID<span class="tooltip-text" role="tooltip">Microsoft Entra ID, formerly Azure Active Directory. It provides identity, authentication and access management for Microsoft cloud services.</span></span>, Teams <span class="tooltip" tabindex="0">SSO<span class="tooltip-text" role="tooltip">Single Sign-On. A user signs in once with their organizational identity and can access approved services without repeated prompts.</span></span> and authenticated user context where agents need secure internal access or user-specific actions.</p></div>
+<div class="card"><span class="icon">🧱</span><h3>Configure data policies</h3><p>Use <span class="tooltip" tabindex="0">DLP<span class="tooltip-text" role="tooltip">Data Loss Prevention. Microsoft policies that classify, allow, restrict or block connectors and data movement to reduce leakage risk.</span></span> policies, connector classification, Dataverse security, SharePoint permissions and data access controls to reduce leakage risk.</p></div>
+</div>
+<h3>Monitoring &amp; analytics operating model</h3>
+<div class="grid grid-3">
+<div class="card"><h4>📊 Performance dashboards</h4><p>Track session volumes, failure rates, escalation points, response latency and capacity trends.</p></div>
+<div class="card"><h4>💬 Conversational analytics</h4><p>Analyse user questions, abandonment, topic routing and unanswered queries to improve content and topics.</p></div>
+<div class="card"><h4>🎯 Topic performance</h4><p>Identify high-volume topics, misunderstood trigger phrases, low-performing flows and conversation loops.</p></div>
+<div class="card"><h4>⭐ Feedback tracking</h4><p>Capture thumbs-up/down, comments, pilot feedback and business owner decisions on answer quality.</p></div>
+<div class="card"><h4>🐞 Error diagnostics</h4><p>Review failed actions, missing variables, connector issues, authentication failures and data-source problems.</p></div>
+<div class="card"><h4>📈 Key metrics</h4><p>Sessions, duration, containment/resolution, CSAT, fallback rate, escalation rate, action success and credit burn.</p></div>
+</div>
+<div class="accordion">
+<div class="accordion-item">
+<button aria-expanded="false" class="accordion-toggle" type="button">Seven administration best practices <span class="chevron">⌄</span></button>
+<div class="accordion-panel"><div class="accordion-content">
+<ol>
+<li><strong>Test in sandbox first:</strong> Never publish high-impact changes directly to production.</li>
+<li><strong>Use <span class="tooltip" tabindex="0">RBAC<span class="tooltip-text" role="tooltip">Role-Based Access Control. Permissions assigned by role so users receive only the access they need.</span></span>:</strong> Assign admin, maker, tester and end-user roles deliberately.</li>
+<li><strong>Run periodic audits:</strong> Review owners, connectors, <span class="tooltip" tabindex="0">DLP<span class="tooltip-text" role="tooltip">Data Loss Prevention. Microsoft policies that classify, allow, restrict or block connectors and data movement to reduce leakage risk.</span></span> exceptions, unused agents and published channels.</li>
+<li><strong>Use version control discipline:</strong> Package changes in solutions and record release notes.</li>
+<li><strong>Document everything:</strong> Maintain runbooks, escalation paths, data sources and known limitations.</li>
+<li><strong>Train users and makers:</strong> Give makers standards and end users examples of what the agent can and cannot do.</li>
+<li><strong>Use feedback loops:</strong> Convert analytics and user feedback into backlog items.</li>
+</ol>
+</div></div>
+</div>
+</div>
+<h3>Administration checklist</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Administration task</th><th>Minimum requirement</th><th>Evidence / control</th><th>Owner</th></tr></thead>
+<tbody>
+<tr><td>Environment setup</td><td>Dev/test/prod or justified single-environment pilot</td><td>Environment inventory and purpose statement</td><td>Power Platform Admin</td></tr>
+<tr><td>Maker access</td><td>Named maker group with least privilege</td><td>Entra group membership and role assignment</td><td>Platform Owner</td></tr>
+<tr><td><span class="tooltip" tabindex="0">DLP<span class="tooltip-text" role="tooltip">Data Loss Prevention. Microsoft policies that classify, allow, restrict or block connectors and data movement to reduce leakage risk.</span></span> policy</td><td>Business, non-business and blocked connector groups defined</td><td><span class="tooltip" tabindex="0">DLP<span class="tooltip-text" role="tooltip">Data Loss Prevention. Microsoft policies that classify, allow, restrict or block connectors and data movement to reduce leakage risk.</span></span> policy screenshot/export</td><td>Security / Platform Admin</td></tr>
+<tr><td>Authentication</td><td>Authentication mode documented and tested</td><td>Test evidence with sample user profiles</td><td>Solution Architect</td></tr>
+<tr><td>Knowledge sources</td><td>Approved, current, permission-aligned knowledge only</td><td>Knowledge register with owner and review date</td><td>Business Owner</td></tr>
+<tr><td>Publishing</td><td>Controlled channel release and rollback plan</td><td>Release record and go/no-go approval</td><td>Agent Owner</td></tr>
+<tr><td>Monitoring</td><td>Usage, quality, errors and cost reviewed regularly</td><td>Monthly scorecard and backlog actions</td><td>Operations Lead</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="content-section" data-groups="foundations,administration" data-keywords="roles permissions global administrator power platform admin maker builder security roles privileges" id="roles">
+<div class="section-heading">
+<div>
+<h2>👥 Roles &amp; Permissions</h2>
+<p>Separate high-privilege administration from maker activity and end-user access. This reduces operational risk and keeps governance manageable.</p>
+</div>
+<span class="tag">Access Control</span>
+</div>
+<div class="grid grid-3">
+<div class="card"><span class="icon">👑</span><h3>Tenant / Global Admin</h3><p>Manages tenant-wide settings, capacity purchase activation, privileged admin controls and emergency access. Use sparingly due to broad permissions.</p></div>
+<div class="card"><span class="icon">🧭</span><h3>Power Platform Admin</h3><p>Manages environments, <span class="tooltip" tabindex="0">DLP<span class="tooltip-text" role="tooltip">Data Loss Prevention. Microsoft policies that classify, allow, restrict or block connectors and data movement to reduce leakage risk.</span></span> policies, analytics, capacity allocation, Dataverse settings and platform governance.</p></div>
+<div class="card"><span class="icon">🧑‍💻</span><h3>Maker / Builder</h3><p>Builds agents, topics, prompts, flows and connections within authorised environments and governed connector boundaries.</p></div>
+</div>
+<div class="alert warning">
+<strong>Operational warning</strong>
+          Avoid giving broad admin rights to every maker. Use named maker groups, solution-aware development, and a clear approval path for production publishing.
+        </div>
+</section>
+<section class="content-section" data-groups="licensing" data-keywords="licensing guide decision tree microsoft 365 copilot copilot studio prepaid pay as you go trial azure credit power automate power apps" id="licensing">
+<div class="section-heading">
+<div>
+<h2>📜 Comprehensive Licensing Guide</h2>
+<p>Choose licensing based on who uses the agent, whether usage is internal or external, whether the user has Microsoft 365 Copilot, and whether consumption is predictable.</p>
+</div>
+<span class="tag">Licensing</span>
+</div>
+<div class="alert">
+<strong>Decision tree in plain language</strong>
+          Start with the audience. If the capability is for licensed employees working inside Microsoft 365, begin with Microsoft 365 Copilot. If you need a custom agent, workflow orchestration or non-Microsoft 365 channel, use Copilot Studio. Then decide whether prepaid capacity or pay-as-you-go fits your usage pattern.
+        </div>
+<div class="process">
+<div class="step"><div><strong>Identify the user population</strong><span>Internal employees, external customers, agents, partners, intermediaries or public users.</span></div></div>
+<div class="step"><div><strong>Confirm Microsoft 365 Copilot licensing</strong><span>For <span class="tooltip" tabindex="0">B2E<span class="tooltip-text" role="tooltip">Business-to-Employee. An internal employee-facing agent or use case.</span></span> scenarios, licensed and authenticated users may reduce or negate Copilot Credit consumption for included usage patterns.</span></div></div>
+<div class="step"><div><strong>Select the agent model</strong><span>Knowledge Q&amp;A, guided topic, integrated automation, autonomous trigger, voice-enabled agent or multi-system workflow.</span></div></div>
+<div class="step"><div><strong>Estimate consumption</strong><span>Model classic answers, generative answers, tenant graph grounding, agent actions, agent flows and AI tools.</span></div></div>
+<div class="step"><div><strong>Choose commercial path</strong><span>Prepaid capacity for predictable usage; pay-as-you-go for pilots, variable usage and overflow handling.</span></div></div>
+</div>
+<h3>License types &amp; models</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>License / model</th><th>Indicative cost</th><th>Scope</th><th>Best use case</th><th>Important notes</th></tr></thead>
+<tbody>
+<tr><td>Microsoft 365 Copilot</td><td>$30/user/month, paid yearly</td><td>Internal users with qualifying plans</td><td>Productivity, Copilot Chat and employee-facing custom agents</td><td>Separate qualifying Microsoft 365 license is required.</td></tr>
+<tr><td>Copilot Studio Pre-Purchase</td><td>$200/month per 25,000 credits</td><td>Tenant-wide capacity packs</td><td>Predictable agent usage with budget control</td><td>Credits can be allocated/reserved and monitored.</td></tr>
+<tr><td>Copilot Studio Pay-As-You-Go</td><td>Variable by consumption</td><td>Azure billing meter</td><td>Pilots, variable demand and backup overage handling</td><td>Requires Azure subscription and billing policy setup.</td></tr>
+<tr><td>Trial plans</td><td>Usually 30 days free</td><td>Evaluation only</td><td>Learning, proof-of-concept and demos</td><td>Production use needs paid licensing.</td></tr>
+<tr><td>Free Azure credit</td><td>$200 for 30 days for eligible new Azure accounts</td><td>Azure usage trial credit</td><td>Testing pay-as-you-go billing patterns</td><td>Subject to Azure eligibility and service terms.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="grid grid-2">
+<div class="card"><h3>Power Apps &amp; Power Automate for Microsoft 365</h3><p>Many Microsoft 365 subscriptions include seeded Power Apps and Power Automate capabilities for standard connectors and productivity scenarios. Premium connectors, Dataverse capacity, advanced governance and enterprise-scale patterns may require additional licensing.</p></div>
+<div class="card"><h3>Tenant-level special licenses</h3><p>Some products, such as Dynamics 365 Marketing/Customer Insights, Project plans or Dynamics apps, have tenant or app-specific entitlements. Always check product-specific licensing terms before assuming a Copilot or Power Platform entitlement covers the scenario.</p></div>
+</div>
+<h3>License assignment &amp; management process</h3>
+<div class="accordion">
+<div class="accordion-item"><button aria-expanded="false" class="accordion-toggle" type="button">Step-by-step licensing process <span class="chevron">⌄</span></button><div class="accordion-panel"><div class="accordion-content"><ol><li>Confirm the intended audience and channel.</li><li>Confirm prerequisite Microsoft 365 licenses for Microsoft 365 Copilot users.</li><li>Decide whether the scenario needs Copilot Studio capacity, pay-as-you-go, or both.</li><li>Assign user licenses in Microsoft 365 admin center or via group-based licensing.</li><li>Configure Power Platform environments and billing policies.</li><li>Allocate prepaid credits to the appropriate environment where required.</li><li>Monitor usage after go-live and adjust capacity monthly.</li></ol></div></div></div>
+<div class="accordion-item"><button aria-expanded="false" class="accordion-toggle" type="button">Regional &amp; language availability note <span class="chevron">⌄</span></button><div class="accordion-panel"><div class="accordion-content"><p>Availability, supported languages, sovereign cloud support and feature rollout timing can vary by market and tenant configuration. Validate region-specific availability before committing a production rollout or external customer launch.</p></div></div></div>
+</div>
+<h3>Quick license comparison</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Model</th><th>Cost basis</th><th>Feature access</th><th>Budget predictability</th><th>Best fit</th></tr></thead>
+<tbody>
+<tr><td>Microsoft 365 Copilot</td><td>Per-user subscription</td><td>Microsoft 365 Copilot experiences and included agent use patterns</td><td>High</td><td>Internal productivity and employee-facing assistants</td></tr>
+<tr><td>Prepaid Copilot Credits</td><td>Monthly capacity pack</td><td>Copilot Studio agents and billed agent features</td><td>High to medium</td><td>Controlled pilots and scaled internal/custom agents</td></tr>
+<tr><td>Pay-as-you-go</td><td>Monthly consumption</td><td>Same product capabilities, different payment model</td><td>Medium to low</td><td>Variable volumes, unknown demand and overflow</td></tr>
+<tr><td>Trial</td><td>Time-limited</td><td>Evaluation capabilities</td><td>Not for production</td><td>Learning and demos</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="content-section" data-groups="licensing" data-keywords="copilot credits consumption classic answer generative answer tenant graph grounding agent action agent flow ai tools voice" id="credits">
+<div class="section-heading">
+<div>
+<h2>💳 Copilot Credits</h2>
+<p>Copilot Credits are the unit Microsoft uses to measure billed Copilot Studio agent activity. Consumption depends on the feature mix used during an interaction.</p>
+</div>
+<span class="tag">Consumption</span>
+</div>
+<div class="grid auto-grid">
+<div class="card"><span class="icon">🧾</span><h3>Classic answers</h3><p>Pre-authored answers are predictable and bill at a lower rate than generative responses.</p></div>
+<div class="card"><span class="icon">🧠</span><h3>Generative answers</h3><p>AI-generated answers grounded in configured knowledge sources. Useful for flexible questions and broader content coverage.</p></div>
+<div class="card"><span class="icon">🔗</span><h3>Agent actions</h3><p>Calls to actions, topic transitions, triggers, computer use and orchestration steps can add credits.</p></div>
+<div class="card"><span class="icon">🌐</span><h3>Tenant graph grounding</h3><p>Uses Microsoft Graph and connected enterprise data for higher quality tenant-grounded retrieval.</p></div>
+</div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Feature</th><th>Current billing rate</th><th>Typical interpretation</th></tr></thead>
+<tbody>
+<tr><td>Classic answer</td><td>1 Copilot Credit</td><td>Pre-authored response or controlled answer path.</td></tr>
+<tr><td>Generative answer</td><td>2 Copilot Credits</td><td>AI-generated answer grounded in selected knowledge.</td></tr>
+<tr><td>Agent action</td><td>5 Copilot Credits</td><td>Action call, orchestration step, topic transition or computer-using agent activity.</td></tr>
+<tr><td>Tenant graph grounding</td><td>10 Copilot Credits</td><td>Microsoft Graph / Work IQ-style tenant grounding for messages.</td></tr>
+<tr><td>Agent flow actions</td><td>13 Copilot Credits per 100 actions</td><td>Flow actions executed as part of agent flow processing.</td></tr>
+<tr><td>Text and generative AI tools - basic</td><td>1 Copilot Credit per 10 responses</td><td>Light prompt/tool usage.</td></tr>
+<tr><td>Text and generative AI tools - standard</td><td>15 Copilot Credits per 10 responses</td><td>Heavier standard model prompt/tool usage.</td></tr>
+<tr><td>Text and generative AI tools - premium</td><td>100 Copilot Credits per 10 responses</td><td>Advanced reasoning or premium model prompt/tool usage.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="alert warning">
+<strong>Important modelling point</strong>
+          A single user interaction can consume multiple feature types. For example, one response could include a generative answer plus tenant graph grounding plus one or more actions.
+        </div>
+</section>
+<section class="content-section" data-groups="administration,licensing" data-keywords="billing azure subscription cost management pay as you go prepaid capacity pack budgets overage power platform admin center" id="billing">
+<div class="section-heading">
+<div>
+<h2>💵 Billing Details</h2>
+<p>Billing is split between per-user licensing, tenant capacity packs and Azure-linked pay-as-you-go consumption. Each model has a different governance process.</p>
+</div>
+<span class="tag">Billing</span>
+</div>
+<div class="grid grid-2">
+<div class="card"><h3>License billing</h3><p>Microsoft 365 Copilot is typically purchased and assigned per user through Microsoft 365 licensing. This is straightforward when the user base is known and internal.</p></div>
+<div class="card"><h3>Azure-linked billing</h3><p>Pay-as-you-go requires an Azure subscription and billing policy. Use Azure Cost Management for budgets, alerts and monthly consumption review.</p></div>
+</div>
+<div class="accordion">
+<div class="accordion-item"><button aria-expanded="false" class="accordion-toggle" type="button">Prepaid capacity governance <span class="chevron">⌄</span></button><div class="accordion-panel"><div class="accordion-content"><ul><li>Buy capacity packs through the correct Microsoft commerce route.</li><li>Allocate capacity to environments or usage policies where required.</li><li>Monitor remaining credits and overage risk.</li><li>Review monthly consumption against business value and adoption.</li></ul></div></div></div>
+<div class="accordion-item"><button aria-expanded="false" class="accordion-toggle" type="button">Pay-as-you-go governance <span class="chevron">⌄</span></button><div class="accordion-panel"><div class="accordion-content"><ul><li>Link the correct Azure subscription to the billing policy.</li><li>Define budget alerts before production launch.</li><li>Use pay-as-you-go as the primary model for variable demand or as a backup for overage.</li><li>Review spend by environment, agent, department or business owner where reporting permits.</li></ul></div></div></div>
+<div class="accordion-item"><button aria-expanded="false" class="accordion-toggle" type="button">Overage and continuity planning <span class="chevron">⌄</span></button><div class="accordion-panel"><div class="accordion-content"><p>For critical agents, consider pairing prepaid capacity with pay-as-you-go handling so usage spikes do not unexpectedly block important business processes. Document what happens if capacity runs out, who receives alerts and how additional capacity is approved.</p></div></div></div>
+</div>
+</section>
+<section class="content-section" data-groups="licensing" data-keywords="cost estimator calculator copilot credit estimator usage estimate packs zAR usd forecast interactions" id="estimator">
+<div class="section-heading">
+<div>
+<h2>🧮 Copilot Studio Cost Estimator</h2>
+<p>The official Microsoft estimator is used for informational forecasts. The simplified calculator below helps you model a first-pass monthly estimate directly inside this guide.</p>
+</div>
+<span class="tag">Interactive</span>
+</div>
+<div class="alert">
+<strong>How to use the official Microsoft estimator</strong>
+<span>Select the agent category, add your agents, configure business model, traffic, knowledge sources, Microsoft 365 Copilot user mix, tools/actions and optional modifiers. Treat the output as a forecast, not a guaranteed invoice.</span>
+</div>
+<div aria-label="Cost estimator input guidance" class="estimator-instructions">
+<div class="instruction-card">
+<h3>Yellow fields = fill in</h3>
+<p>Every yellow field is an editable planning assumption. Start with conservative values, then refine after pilot analytics are available.</p>
+</div>
+<div class="instruction-card">
+<h3>Numbered input sequence</h3>
+<ol>
+<li><strong>1-2:</strong> Define who uses the agent and the expected monthly traffic.</li>
+<li><strong>3-4:</strong> Apply Microsoft 365 Copilot licensed-user offset and exchange-rate assumptions.</li>
+<li><strong>5-9:</strong> Estimate the response, grounding, action and flow usage per interaction.</li>
+<li><strong>10-11:</strong> Add AI tool usage only where the agent calls an AI tool or premium capability.</li>
+</ol>
+</div>
+</div>
+
+<div class="estimator">
+<div class="card">
+<h3>Monthly credit calculator</h3>
+<p class="hint">This is a planning aid using published credit rates. It is not a substitute for the official Microsoft estimator, Microsoft licensing guide or billing statement.</p>
+<div class="form-grid">
+<div class="field required-estimator-field">
+<label class="enhanced-label" for="businessModel"><span class="label-main"><span class="step-pill">1</span><span>Business model</span></span><span class="field-type">Input</span></label>
+<div class="input-help-row"><select id="businessModel">
+<option value="b2e">B2E - employees/internal users</option>
+<option value="b2c">B2C - customers/external users</option>
+</select><small class="field-howto">Select <span class="tooltip" tabindex="0">B2E<span class="tooltip-text" role="tooltip">Business-to-Employee. An internal employee-facing agent or use case.</span></span> for employees/internal users; select <span class="tooltip" tabindex="0">B2C<span class="tooltip-text" role="tooltip">Business-to-Consumer. A customer-facing or external-user agent or use case.</span></span> for customer-facing or public use.</small></div>
+</div>
+<div class="field required-estimator-field">
+<label class="enhanced-label" for="monthlyInteractions"><span class="label-main"><span class="step-pill">2</span><span>Monthly interactions</span></span><span class="field-type">Input</span></label>
+<div class="input-help-row"><input id="monthlyInteractions" min="0" type="number" value="5000"/><small class="field-howto">Estimate total monthly user interactions or sessions before any licensed-user offset.</small></div>
+</div>
+<div class="field required-estimator-field">
+<label class="enhanced-label" for="licensedPercent"><span class="label-main"><span class="step-pill">3</span><span>% interactions by <span class="tooltip" tabindex="0">M365<span class="tooltip-text" role="tooltip">Microsoft 365. In this guide, usually shorthand for Microsoft 365 Copilot or Microsoft 365 tenant services.</span></span> Copilot licensed users</span></span><span class="field-type">Input</span><span class="tooltip" tabindex="0">M365<span class="tooltip-text" role="tooltip">Microsoft 365. In this calculator, it refers to users licensed for Microsoft 365 Copilot where usage may be treated differently for some authenticated internal scenarios.</span></span></label>
+<div class="input-help-row"><input id="licensedPercent" max="100" min="0" type="number" value="0"/><small class="field-howto">For <span class="tooltip" tabindex="0">B2E<span class="tooltip-text" role="tooltip">Business-to-Employee. An internal employee-facing agent or use case.</span></span> only: estimate the share of interactions from authenticated <span class="tooltip" tabindex="0">M365<span class="tooltip-text" role="tooltip">Microsoft 365. In this guide, usually shorthand for Microsoft 365 Copilot or Microsoft 365 tenant services.</span></span> Copilot licensed users.</small></div>
+<span class="hint">Only applies to authenticated <span class="tooltip" tabindex="0">B2E<span class="tooltip-text" role="tooltip">Business-to-Employee. An internal employee-facing agent or use case.</span></span> scenarios.</span>
+</div>
+<div class="field required-estimator-field">
+<label class="enhanced-label" for="exchangeRate"><span class="label-main"><span class="step-pill">4</span><span>Planning exchange rate: <span class="tooltip" tabindex="0">USD<span class="tooltip-text" role="tooltip">United States Dollar. Pricing in this guide is shown in USD where Microsoft publishes USD examples.</span></span> to <span class="tooltip" tabindex="0">ZAR<span class="tooltip-text" role="tooltip">South African Rand. Used here for local planning conversions only.</span></span></span></span><span class="field-type">Input</span></label>
+<div class="input-help-row"><input id="exchangeRate" min="0" step="0.01" type="number" value="18.50"/><small class="field-howto">Use a planning rate for <span class="tooltip" tabindex="0">USD<span class="tooltip-text" role="tooltip">United States Dollar. Pricing in this guide is shown in USD where Microsoft publishes USD examples.</span></span>-to-<span class="tooltip" tabindex="0">ZAR<span class="tooltip-text" role="tooltip">South African Rand. Used here for local planning conversions only.</span></span> conversion; update before commercial approval.</small></div>
+</div>
+<div class="field required-estimator-field">
+<label class="enhanced-label" for="classicAnswers"><span class="label-main"><span class="step-pill">5</span><span>Classic answers per interaction</span></span><span class="field-type">Input</span></label>
+<div class="input-help-row"><input id="classicAnswers" min="0" step="0.1" type="number" value="1"/><small class="field-howto">Use when the agent relies on classic topic/answer patterns.</small></div>
+</div>
+<div class="field required-estimator-field">
+<label class="enhanced-label" for="generativeAnswers"><span class="label-main"><span class="step-pill">6</span><span>Generative answers per interaction</span></span><span class="field-type">Input</span></label>
+<div class="input-help-row"><input id="generativeAnswers" min="0" step="0.1" type="number" value="2"/><small class="field-howto">Use when the agent generates natural-language answers from configured knowledge.</small></div>
+</div>
+<div class="field required-estimator-field">
+<label class="enhanced-label" for="tenantGrounding"><span class="label-main"><span class="step-pill">7</span><span>Tenant graph grounded messages per interaction</span></span><span class="field-type">Input</span><span class="tooltip" tabindex="0">Tenant graph<span class="tooltip-text" role="tooltip">Tenant work graph grounding means the agent uses organization data such as Microsoft 365 content and user-context signals, subject to permissions and configuration.</span></span></label>
+<div class="input-help-row"><input id="tenantGrounding" min="0" step="0.1" type="number" value="0"/><small class="field-howto">Use when the agent grounds answers in Microsoft Graph or tenant/work data.</small></div>
+</div>
+<div class="field required-estimator-field">
+<label class="enhanced-label" for="agentActions"><span class="label-main"><span class="step-pill">8</span><span>Agent actions per interaction</span></span><span class="field-type">Input</span><span class="tooltip" tabindex="0">Actions<span class="tooltip-text" role="tooltip">Agent actions are work the agent performs through tools, connectors, APIs, flows or other configured capabilities beyond plain chat responses.</span></span></label>
+<div class="input-help-row"><input id="agentActions" min="0" step="0.1" type="number" value="0.5"/><small class="field-howto">Use for actions/tools triggered by the agent, such as connector or <span class="tooltip" tabindex="0">API<span class="tooltip-text" role="tooltip">Application Programming Interface. A controlled way for one application or system to call another.</span></span> calls.</small></div>
+</div>
+<div class="field required-estimator-field">
+<label class="enhanced-label" for="flowActions"><span class="label-main"><span class="step-pill">9</span><span>Agent flow actions per interaction</span></span><span class="field-type">Input</span><span class="tooltip" tabindex="0">Flow actions<span class="tooltip-text" role="tooltip">Power Automate steps triggered by the agent. A single flow can contain multiple billable or metered actions.</span></span></label>
+<div class="input-help-row"><input id="flowActions" min="0" step="0.1" type="number" value="2"/><small class="field-howto">Estimate Power Automate agent-flow actions triggered per interaction.</small></div>
+</div>
+<div class="field required-estimator-field">
+<label class="enhanced-label" for="aiToolTier"><span class="label-main"><span class="step-pill">10</span><span>AI tool tier</span></span><span class="field-type">Input</span></label>
+<div class="input-help-row"><select id="aiToolTier">
+<option value="0">None</option>
+<option value="0.1">Basic - 1 credit per 10 responses</option>
+<option value="1.5">Standard - 15 credits per 10 responses</option>
+<option value="10">Premium - 100 credits per 10 responses</option>
+</select><small class="field-howto">Select the nearest AI tool consumption tier only where AI tools are used.</small></div>
+</div>
+<div class="field full required-estimator-field">
+<label class="enhanced-label" for="aiToolResponses"><span class="label-main"><span class="step-pill">11</span><span>AI tool responses per interaction</span></span><span class="field-type">Input</span></label>
+<div class="input-help-row"><input id="aiToolResponses" min="0" step="0.1" type="number" value="0"/><small class="field-howto">Estimate the number of AI tool responses returned per interaction.</small></div>
+</div>
+</div>
+<div class="button-row">
+<button class="btn btn-primary" id="calculateBtn" type="button">Calculate estimate</button>
+<button class="btn btn-secondary" id="resetEstimatorBtn" type="button">Reset sample</button>
+</div>
+</div>
+<div aria-live="polite" class="result-panel">
+<h3>Estimated monthly consumption</h3>
+<span class="result-number" id="creditResult">0</span>
+<p>Copilot Credits / month</p>
+<div aria-hidden="true" class="progress-track"><div class="progress-fill" id="capacityFill"></div></div>
+<div class="result-grid">
+<div class="result-tile"><span>Billable interactions</span><strong id="billableInteractions">0</strong></div>
+<div class="result-tile"><span>Credits per interaction</span><strong id="creditsPerInteraction">0</strong></div>
+<div class="result-tile"><span>25K packs required</span><strong id="packsRequired">0</strong></div>
+<div class="result-tile"><span>Prepaid estimate</span><strong id="usdEstimate">$0</strong></div>
+<div class="result-tile"><span><span class="tooltip" tabindex="0">ZAR<span class="tooltip-text" role="tooltip">South African Rand. Used here for local planning conversions only.</span></span> planning estimate</span><strong id="zarEstimate">R0</strong></div>
+<div class="result-tile"><span>Capacity usage</span><strong id="capacityStatus">0%</strong></div>
+</div>
+<div class="alert warning" style="margin-bottom: 0;">
+<strong>Estimator caveat</strong>
+      This uses capacity-pack maths and simplified billing assumptions for planning. Actual invoices depend on Microsoft contract terms, tenant region, user licensing, enabled features, usage profile, Azure billing policy and any commercial changes after this guide was prepared.
+    </div>
+</div>
+</div>
+</section>
+<section class="content-section" data-groups="implementation" data-keywords="implementation deployment small team large organization rollout adoption governance uat pilot production" id="implementation">
+<div class="section-heading">
+<div>
+<h2>🚀 Implementation</h2>
+<p>Rollout should be incremental: start with a controlled pilot, prove business value, and scale only after governance, knowledge quality and support processes are working.</p>
+</div>
+<span class="tag">Delivery</span>
+</div>
+<div class="accordion">
+<div class="accordion-item">
+<button aria-expanded="false" class="accordion-toggle" type="button">Small team deployment guide <span class="chevron">⌄</span></button>
+<div class="accordion-panel"><div class="accordion-content">
+<ol>
+<li>Pick one high-value use case, such as policy Q&amp;A or onboarding support.</li>
+<li>Identify 10–20 pilot users and one accountable business owner.</li>
+<li>Use a sandbox environment and Teams channel first.</li>
+<li>Connect a small, approved knowledge source set.</li>
+<li>Build the first agent with 3–5 core topics or capabilities.</li>
+<li>Run scripted <span class="tooltip" tabindex="0">UAT<span class="tooltip-text" role="tooltip">User Acceptance Testing. Business testing that confirms the solution works for real user scenarios before production release.</span></span> with acceptance criteria.</li>
+<li>Monitor usage, feedback and cost for two to four weeks.</li>
+<li>Decide whether to scale, refine or stop.</li>
+</ol>
+</div></div>
+</div>
+<div class="accordion-item">
+<button aria-expanded="false" class="accordion-toggle" type="button">Large organisation deployment guide <span class="chevron">⌄</span></button>
+<div class="accordion-panel"><div class="accordion-content">
+<ol>
+<li>Establish an AI and Power Platform governance forum.</li>
+<li>Define approved use cases, risk tiers and licensing principles.</li>
+<li>Create an environment strategy with <span class="tooltip" tabindex="0">ALM<span class="tooltip-text" role="tooltip">Application Lifecycle Management. Controlled movement of solutions through development, test and production with governance.</span></span> and production controls.</li>
+<li>Set up <span class="tooltip" tabindex="0">DLP<span class="tooltip-text" role="tooltip">Data Loss Prevention. Microsoft policies that classify, allow, restrict or block connectors and data movement to reduce leakage risk.</span></span>, connector governance, data classification and access controls.</li>
+<li>Define knowledge ownership, review cycles and quality standards.</li>
+<li>Build a reusable agent/topic catalog and starter templates.</li>
+<li>Train makers, admins, product owners and support teams.</li>
+<li>Measure adoption, cost, accuracy, containment and business value monthly.</li>
+</ol>
+</div></div>
+</div>
+<div class="accordion-item">
+<button aria-expanded="false" class="accordion-toggle" type="button">Suggested 30/60/90-day roadmap <span class="chevron">⌄</span></button>
+<div class="accordion-panel"><div class="accordion-content">
+<div class="table-wrap">
+<table>
+<thead><tr><th>Period</th><th>Focus</th><th>Outputs</th></tr></thead>
+<tbody>
+<tr><td>Days 1–30</td><td>Readiness and pilot design</td><td>Use case backlog, licensing estimate, environment plan, knowledge pack, governance guardrails.</td></tr>
+<tr><td>Days 31–60</td><td>Build and validate</td><td>Working agent, topics, knowledge grounding, actions/flows, <span class="tooltip" tabindex="0">UAT<span class="tooltip-text" role="tooltip">User Acceptance Testing. Business testing that confirms the solution works for real user scenarios before production release.</span></span> scripts, defect log.</td></tr>
+<tr><td>Days 61–90</td><td>Operationalise and scale</td><td>Runbook, monitoring dashboard, owner model, enhancement backlog, scale decision.</td></tr>
+</tbody>
+</table>
+</div>
+</div></div>
+</div>
+</div>
+</section>
+<section class="content-section" data-groups="implementation,foundations,licensing,administration" data-keywords="faq questions dataverse publish license credits billing trial copilot studio microsoft 365" id="faq">
+<div class="section-heading">
+<div>
+<h2>❓ FAQ</h2>
+<p>Common questions that come up during early Copilot Studio and Microsoft 365 Copilot planning.</p>
+</div>
+<span class="tag">Reference</span>
+</div>
+<div class="accordion" id="faqList">
+<div class="accordion-item"><button aria-expanded="false" class="faq-question" type="button">Do I need Dataverse to publish a Copilot Studio agent? <span class="chevron">⌄</span></button><div class="faq-answer"><div class="faq-content"><p>Copilot Studio relies on Power Platform environments, and many enterprise patterns benefit from Dataverse-backed environments. Whether Dataverse is required depends on the environment and scenario, but for governed production agents you should plan environment, security, solution packaging and data requirements carefully before publishing.</p></div></div></div>
+<div class="accordion-item"><button aria-expanded="false" class="faq-question" type="button">What is the difference between Microsoft 365 Copilot and Copilot Studio? <span class="chevron">⌄</span></button><div class="faq-answer"><div class="faq-content"><p>Microsoft 365 Copilot is the end-user AI assistant across Microsoft 365. Copilot Studio is the agent-building and administration platform used to create custom agents, connect knowledge and call actions.</p></div></div></div>
+<div class="accordion-item"><button aria-expanded="false" class="faq-question" type="button">When should I use prepaid capacity instead of pay-as-you-go? <span class="chevron">⌄</span></button><div class="faq-answer"><div class="faq-content"><p>Use prepaid capacity when usage is predictable and budget control is important. Use pay-as-you-go for pilots, uncertain demand, variable traffic or overage continuity.</p></div></div></div>
+<div class="accordion-item"><button aria-expanded="false" class="faq-question" type="button">Do Microsoft 365 Copilot licensed users consume Copilot Credits? <span class="chevron">⌄</span></button><div class="faq-answer"><div class="faq-content"><p>In many employee-facing scenarios, Copilot Studio agent usage by authenticated Microsoft 365 Copilot licensed users is not charged against Copilot Credits, subject to Microsoft’s fair usage limits and licensing terms. External or unlicensed users should be modelled as billable.</p></div></div></div>
+<div class="accordion-item"><button aria-expanded="false" class="faq-question" type="button">What consumes the most Copilot Credits? <span class="chevron">⌄</span></button><div class="faq-answer"><div class="faq-content"><p>Tenant graph grounding, agent actions, premium AI tools, voice tiers and high interaction volumes can materially increase usage. A simple Q&amp;A bot will usually consume less than a heavily integrated agent that performs multiple actions per interaction.</p></div></div></div>
+<div class="accordion-item"><button aria-expanded="false" class="faq-question" type="button">How should we control knowledge quality? <span class="chevron">⌄</span></button><div class="faq-answer"><div class="faq-content"><p>Use approved sources only, assign content owners, add review dates, remove duplicate or obsolete content, test prompts, track unanswered questions and maintain a knowledge improvement backlog.</p></div></div></div>
+<div class="accordion-item"><button aria-expanded="false" class="faq-question" type="button">Can Copilot Studio integrate with business systems? <span class="chevron">⌄</span></button><div class="faq-answer"><div class="faq-content"><p>Yes. Agents can use connectors, Power Automate flows, <span class="tooltip" tabindex="0">REST APIs<span class="tooltip-text" role="tooltip">Representational State Transfer Application Programming Interfaces. Common web APIs used to integrate systems.</span></span> and other actions depending on licensing, <span class="tooltip" tabindex="0">DLP<span class="tooltip-text" role="tooltip">Data Loss Prevention. Microsoft policies that classify, allow, restrict or block connectors and data movement to reduce leakage risk.</span></span> policy, authentication model and connector availability.</p></div></div></div>
+<div class="accordion-item"><button aria-expanded="false" class="faq-question" type="button">What should be measured after go-live? <span class="chevron">⌄</span></button><div class="faq-answer"><div class="faq-content"><p>Track usage, resolution or containment, escalation, feedback, errors, action success, response quality, knowledge gaps, cost per interaction and business outcome measures such as time saved or reduced triage effort.</p></div></div></div>
+</div>
+</section>
+<section class="content-section" data-groups="implementation,foundations,licensing,administration" data-keywords="resources microsoft learn links documentation takeaways security governance pricing billing azure power platform" id="resources">
+<div class="section-heading">
+<div>
+<h2>📚 Resources &amp; Key Takeaways</h2>
+<p>Use these official resources to validate pricing, billing, environment setup, security and licensing before procurement or production rollout.</p>
+</div>
+<span class="tag">Docs</span>
+</div>
+<div class="resource-list">
+<a href="https://learn.microsoft.com/en-us/power-platform/admin/pricing-billing-skus" rel="noopener noreferrer" target="_blank"><span>Power Platform pricing, billing and SKUs</span><span>↗</span></a>
+<a href="https://learn.microsoft.com/en-us/azure/cost-management-billing/" rel="noopener noreferrer" target="_blank"><span>Azure Cost Management and Billing</span><span>↗</span></a>
+<a href="https://www.microsoft.com/en-us/microsoft-365-copilot/pricing/copilot-studio" rel="noopener noreferrer" target="_blank"><span>Copilot Studio pricing</span><span>↗</span></a>
+<a href="https://learn.microsoft.com/en-us/power-platform/admin/create-environment" rel="noopener noreferrer" target="_blank"><span>Create and manage Power Platform environments</span><span>↗</span></a>
+<a href="https://learn.microsoft.com/en-us/power-platform/admin/security-roles-privileges" rel="noopener noreferrer" target="_blank"><span>Security roles and privileges</span><span>↗</span></a>
+<a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/security-and-governance" rel="noopener noreferrer" target="_blank"><span>Copilot Studio security and governance</span><span>↗</span></a>
+<a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management" rel="noopener noreferrer" target="_blank"><span>Copilot Studio billing rates and management</span><span>↗</span></a>
+<a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agent-usage-estimator" rel="noopener noreferrer" target="_blank"><span>Copilot Studio agent usage estimator</span><span>↗</span></a>
+<a href="https://microsoft.github.io/copilot-studio-estimator/" rel="noopener noreferrer" target="_blank"><span>Copilot Credit Estimator tool</span><span>↗</span></a>
+<a href="https://www.microsoft.com/en-us/microsoft-365-copilot/pricing/enterprise" rel="noopener noreferrer" target="_blank"><span>Microsoft 365 Copilot enterprise pricing</span><span>↗</span></a>
+</div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Takeaway</th><th>Why it matters</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td>Licensing is not one-size-fits-all</td><td><span class="tooltip" tabindex="0">M365<span class="tooltip-text" role="tooltip">Microsoft 365. In this guide, usually shorthand for Microsoft 365 Copilot or Microsoft 365 tenant services.</span></span> Copilot, Copilot Studio prepaid and pay-as-you-go solve different problems.</td><td>Map user type and agent design before buying.</td></tr>
+<tr><td>Environment design is a governance control</td><td>Poor environment design creates access, <span class="tooltip" tabindex="0">ALM<span class="tooltip-text" role="tooltip">Application Lifecycle Management. Controlled movement of solutions through development, test and production with governance.</span></span> and support issues.</td><td>Separate dev/test/prod where the risk profile justifies it.</td></tr>
+<tr><td>Credits depend on design</td><td>Knowledge-only agents cost differently from action-heavy or graph-grounded agents.</td><td>Estimate by feature mix, not just user count.</td></tr>
+<tr><td><span class="tooltip" tabindex="0">DLP<span class="tooltip-text" role="tooltip">Data Loss Prevention. Microsoft policies that classify, allow, restrict or block connectors and data movement to reduce leakage risk.</span></span> and security must be early</td><td>Retrofitting policies after agents are built causes rework.</td><td>Set connector and data policies before production publishing.</td></tr>
+<tr><td>Operational ownership is essential</td><td>Agents need content owners, analytics review, support and improvement cycles.</td><td>Create an agent catalog, owner model and monthly scorecard.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="print-note">Print mode expands collapsible content automatically for review packs.</p>
+</section>
+</main>
+</div>
+<footer>
+<div class="footer-card">
+<div class="footer-summary">
+<div class="footer-label">Guide</div>
+<div class="footer-title">Microsoft 365 Copilot &amp; Copilot Studio Complete Technical Guide</div>
+<div>Combined HTML guide covering product overview, administration, licensing, billing, implementation and cost estimation.</div>
+</div>
+<div class="footer-disclaimer">
+<div class="footer-label">Disclaimer</div>
+This guide is based on the most recent Microsoft sources available when prepared. It is not legal, licensing or financial advice, and it does not take responsibility for Microsoft UI, pricing, product, licensing, regional availability or billing-policy changes after publication.
+</div>
+<div class="footer-meta">
+<div class="footer-label">Attribution</div>
+<div class="footer-credit">Built by Craig Wagner — BrightPrompt AI Founder &amp; Copilot Specialist</div>
+<div>Last reviewed: 28 May 2026</div>
+<div class="footer-links">
+<a href="https://brightprompt.co.za" rel="noopener noreferrer" target="_blank">brightprompt.co.za</a>
+<a href="https://www.linkedin.com/company/brightprompt/" rel="noopener noreferrer" target="_blank">LinkedIn</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+    (function () {
+      'use strict';
+
+      const searchInput = document.getElementById('searchInput');
+      const sections = Array.from(document.querySelectorAll('.content-section'));
+      const navLinks = Array.from(document.querySelectorAll('.side-nav a'));
+      const sidebar = document.getElementById('sidebar');
+      const menuToggle = document.getElementById('menuToggle');
+      const emptyState = document.getElementById('emptyState');
+      const guideTabs = Array.from(document.querySelectorAll('.guide-tab'));
+      let activeGroup = 'all';
+
+      function getSectionByHref(link) {
+        const href = link.getAttribute('href') || '';
+        return href.startsWith('#') ? document.querySelector(href) : null;
+      }
+
+      function matchesActiveGroup(section) {
+        if (activeGroup === 'all') return true;
+        const groups = (section.dataset.groups || '').split(',').map(item => item.trim());
+        return groups.includes(activeGroup);
+      }
+
+      function applyFilters() {
+        const term = (searchInput.value || '').trim().toLowerCase();
+        let visibleCount = 0;
+
+        sections.forEach(section => {
+          const searchable = `${section.textContent} ${section.dataset.keywords || ''}`.toLowerCase();
+          const isVisible = matchesActiveGroup(section) && (!term || searchable.includes(term));
+          section.style.display = isVisible ? '' : 'none';
+          if (isVisible) visibleCount += 1;
+        });
+
+        navLinks.forEach(link => {
+          const section = getSectionByHref(link);
+          const item = link.closest('li');
+          if (!section || !item) return;
+          item.style.display = section.style.display === 'none' ? 'none' : '';
+        });
+
+        emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+        updateActiveNav();
+      }
+
+      function updateActiveNav() {
+        const visibleSections = sections.filter(section => section.style.display !== 'none');
+        let current = visibleSections[0];
+        const offset = 190;
+
+        visibleSections.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= offset) current = section;
+        });
+
+        navLinks.forEach(link => {
+          const section = getSectionByHref(link);
+          link.classList.toggle('active', Boolean(section && current && section.id === current.id));
+        });
+      }
+
+      function setPanelHeight(panel, open) {
+        if (!panel) return;
+        panel.style.maxHeight = open ? `${panel.scrollHeight}px` : '0px';
+      }
+
+      function togglePanel(button, panelSelector) {
+        const panel = button.parentElement.querySelector(panelSelector);
+        const open = !button.classList.contains('open');
+        button.classList.toggle('open', open);
+        button.setAttribute('aria-expanded', String(open));
+        setPanelHeight(panel, open);
+      }
+
+      function initialiseAccordions() {
+        document.querySelectorAll('.accordion-toggle').forEach(button => {
+          button.addEventListener('click', () => togglePanel(button, '.accordion-panel'));
+        });
+
+        document.querySelectorAll('.faq-question').forEach(button => {
+          button.addEventListener('click', () => togglePanel(button, '.faq-answer'));
+        });
+      }
+
+      function initialisePricingTabs() {
+        const tabButtons = Array.from(document.querySelectorAll('.pricing-tab'));
+        const panels = Array.from(document.querySelectorAll('.pricing-panel'));
+
+        tabButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const target = button.dataset.priceTab;
+            tabButtons.forEach(tab => tab.classList.toggle('active', tab === button));
+            panels.forEach(panel => panel.classList.toggle('active', panel.dataset.pricePanel === target));
+          });
+        });
+      }
+
+      function initialiseGuideTabs() {
+        guideTabs.forEach(button => {
+          button.addEventListener('click', () => {
+            activeGroup = button.dataset.group || 'all';
+            guideTabs.forEach(tab => tab.classList.toggle('active', tab === button));
+            applyFilters();
+            const firstVisible = sections.find(section => section.style.display !== 'none');
+            if (firstVisible) {
+              firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          });
+        });
+      }
+
+      function numberValue(id, fallback) {
+        const element = document.getElementById(id);
+        if (!element) return fallback;
+        const value = Number(element.value);
+        return Number.isFinite(value) ? value : fallback;
+      }
+
+      function formatNumber(value, decimals) {
+        return value.toLocaleString(undefined, {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        });
+      }
+
+      function calculateEstimate() {
+        const businessModel = document.getElementById('businessModel').value;
+        const monthlyInteractions = Math.max(0, numberValue('monthlyInteractions', 0));
+        const licensedPercentRaw = Math.max(0, Math.min(100, numberValue('licensedPercent', 0)));
+        const licensedPercent = businessModel === 'b2e' ? licensedPercentRaw : 0;
+        const billableInteractions = monthlyInteractions * (1 - licensedPercent / 100);
+
+        const classic = Math.max(0, numberValue('classicAnswers', 0)) * 1;
+        const generative = Math.max(0, numberValue('generativeAnswers', 0)) * 2;
+        const tenant = Math.max(0, numberValue('tenantGrounding', 0)) * 10;
+        const actions = Math.max(0, numberValue('agentActions', 0)) * 5;
+        const flowActions = Math.max(0, numberValue('flowActions', 0)) * (13 / 100);
+        const aiToolTier = Math.max(0, numberValue('aiToolTier', 0));
+        const aiResponses = Math.max(0, numberValue('aiToolResponses', 0)) * aiToolTier;
+        const creditsPerInteraction = classic + generative + tenant + actions + flowActions + aiResponses;
+        const totalCredits = billableInteractions * creditsPerInteraction;
+        const packs = totalCredits > 0 ? Math.ceil(totalCredits / 25000) : 0;
+        const usdEstimate = packs * 200;
+        const exchangeRate = Math.max(0, numberValue('exchangeRate', 18.5));
+        const zarEstimate = usdEstimate * exchangeRate;
+        const capacityPercent = packs > 0 ? (totalCredits / (packs * 25000)) * 100 : 0;
+
+        document.getElementById('creditResult').textContent = formatNumber(Math.round(totalCredits), 0);
+        document.getElementById('billableInteractions').textContent = formatNumber(Math.round(billableInteractions), 0);
+        document.getElementById('creditsPerInteraction').textContent = formatNumber(creditsPerInteraction, 2);
+        document.getElementById('packsRequired').textContent = formatNumber(packs, 0);
+        document.getElementById('usdEstimate').textContent = `$${formatNumber(usdEstimate, 0)}`;
+        document.getElementById('zarEstimate').textContent = `R${formatNumber(zarEstimate, 0)}`;
+        document.getElementById('capacityStatus').textContent = `${formatNumber(capacityPercent, 1)}%`;
+        document.getElementById('capacityFill').style.width = `${Math.max(0, Math.min(100, capacityPercent))}%`;
+      }
+
+      function resetEstimator() {
+        document.getElementById('businessModel').value = 'b2e';
+        document.getElementById('monthlyInteractions').value = 5000;
+        document.getElementById('licensedPercent').value = 0;
+        document.getElementById('exchangeRate').value = 18.50;
+        document.getElementById('classicAnswers').value = 1;
+        document.getElementById('generativeAnswers').value = 2;
+        document.getElementById('tenantGrounding').value = 0;
+        document.getElementById('agentActions').value = 0.5;
+        document.getElementById('flowActions').value = 2;
+        document.getElementById('aiToolTier').value = 0;
+        document.getElementById('aiToolResponses').value = 0;
+        calculateEstimate();
+      }
+
+      function initialiseTooltips() {
+        const tooltipTargets = Array.from(document.querySelectorAll('.tooltip'));
+        if (!tooltipTargets.length) return;
+
+        const floatingTooltip = document.createElement('div');
+        floatingTooltip.className = 'floating-tooltip';
+        floatingTooltip.id = 'floatingTooltip';
+        floatingTooltip.setAttribute('role', 'tooltip');
+        document.body.appendChild(floatingTooltip);
+
+        let activeTarget = null;
+
+        function getTooltipText(target) {
+          const textElement = target.querySelector('.tooltip-text');
+          return textElement ? textElement.textContent.trim() : '';
+        }
+
+        function positionTooltip(target) {
+          if (!target || !floatingTooltip.classList.contains('visible')) return;
+          const margin = 16;
+          const gap = 12;
+          const rect = target.getBoundingClientRect();
+          const tooltipRect = floatingTooltip.getBoundingClientRect();
+          const viewportWidth = window.innerWidth;
+          const viewportHeight = window.innerHeight;
+
+          let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+          left = Math.max(margin, Math.min(left, viewportWidth - tooltipRect.width - margin));
+
+          let top = rect.top - tooltipRect.height - gap;
+          if (top < margin) {
+            top = rect.bottom + gap;
+          }
+          top = Math.max(margin, Math.min(top, viewportHeight - tooltipRect.height - margin));
+
+          floatingTooltip.style.left = `${left}px`;
+          floatingTooltip.style.top = `${top}px`;
+        }
+
+        function showTooltip(target) {
+          const text = getTooltipText(target);
+          if (!text) return;
+          activeTarget = target;
+          floatingTooltip.textContent = text;
+          floatingTooltip.classList.add('visible');
+          target.setAttribute('aria-describedby', 'floatingTooltip');
+          positionTooltip(target);
+        }
+
+        function hideTooltip(target) {
+          if (target) target.removeAttribute('aria-describedby');
+          activeTarget = null;
+          floatingTooltip.classList.remove('visible');
+        }
+
+        tooltipTargets.forEach(target => {
+          target.addEventListener('mouseenter', () => showTooltip(target));
+          target.addEventListener('focusin', () => showTooltip(target));
+          target.addEventListener('mouseleave', () => hideTooltip(target));
+          target.addEventListener('focusout', () => hideTooltip(target));
+        });
+
+        window.addEventListener('scroll', () => {
+          if (activeTarget) positionTooltip(activeTarget);
+        }, { passive: true });
+        window.addEventListener('resize', () => {
+          if (activeTarget) positionTooltip(activeTarget);
+        });
+        document.addEventListener('keydown', event => {
+          if (event.key === 'Escape' && activeTarget) hideTooltip(activeTarget);
+        });
+      }
+
+      function initialiseEstimator() {
+        const ids = ['businessModel', 'monthlyInteractions', 'licensedPercent', 'exchangeRate', 'classicAnswers', 'generativeAnswers', 'tenantGrounding', 'agentActions', 'flowActions', 'aiToolTier', 'aiToolResponses'];
+        ids.forEach(id => {
+          const element = document.getElementById(id);
+          if (element) element.addEventListener('input', calculateEstimate);
+          if (element) element.addEventListener('change', calculateEstimate);
+        });
+        document.getElementById('calculateBtn').addEventListener('click', calculateEstimate);
+        document.getElementById('resetEstimatorBtn').addEventListener('click', resetEstimator);
+        calculateEstimate();
+      }
+
+      function initialiseNavigation() {
+        navLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            if (sidebar.classList.contains('open')) {
+              sidebar.classList.remove('open');
+              menuToggle.setAttribute('aria-expanded', 'false');
+            }
+          });
+        });
+
+        menuToggle.addEventListener('click', () => {
+          const open = !sidebar.classList.contains('open');
+          sidebar.classList.toggle('open', open);
+          menuToggle.setAttribute('aria-expanded', String(open));
+        });
+
+        document.addEventListener('click', event => {
+          const clickInsideSidebar = sidebar.contains(event.target);
+          const clickMenu = menuToggle.contains(event.target);
+          if (!clickInsideSidebar && !clickMenu && sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      function updateOpenPanelHeights() {
+        document.querySelectorAll('.accordion-toggle.open').forEach(button => {
+          setPanelHeight(button.parentElement.querySelector('.accordion-panel'), true);
+        });
+        document.querySelectorAll('.faq-question.open').forEach(button => {
+          setPanelHeight(button.parentElement.querySelector('.faq-answer'), true);
+        });
+      }
+
+      searchInput.addEventListener('input', applyFilters);
+      window.addEventListener('scroll', updateActiveNav, { passive: true });
+      window.addEventListener('resize', () => {
+        updateActiveNav();
+        updateOpenPanelHeights();
+      });
+
+      initialiseNavigation();
+      initialiseAccordions();
+      initialisePricingTabs();
+      initialiseGuideTabs();
+      initialiseEstimator();
+      initialiseTooltips();
+      applyFilters();
+    })();
+  </script>
+</body>
+</html>
